@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Anti-CSRF Example</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <form>
+      <label for="username">username:</label>
+      <input type="text" id="username" name="username" />
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" />
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <script type="module">
+      // Don't forget to change the port if the server uses another one.
+
+      const form = document.querySelector('form');
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const username = document.querySelector('#username').value;
+        const password = document.querySelector('#password').value;
+
+        const response = await fetch(`http://127.0.0.1:3000/csrf-token`);
+        const { token } = await response.json();
+        console.log('the token', token);
+
+        // The csrf cookie was implicitly set on the request by the server
+        const post = await fetch(`http://127.0.0.1:3000/protected_endpoint`, {
+          method: 'POST',
+          headers: {
+            'x-csrf-token': token, // comment this line to throw an error.
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            username,
+            password,
+          }),
+        });
+
+        const app = document.getElementById('app');
+        const data = JSON.stringify(await post.json());
+        app.innerHTML = `<code>${data}</code>`;
+      });
+    </script>
+  </body>
+</html>
