@@ -11,27 +11,27 @@ import {
   postToProtected,
   postToUnprotected,
 } from './controllers/protectedController.js';
-import { renderHome } from './controllers/homeControllers.js';
+import { renderHome } from './controllers/viewControllers.js';
 
 const __filename = fileURLToPath(import.meta.url);
 export const __dirname = path.dirname(__filename);
 
 // Secrets and important params might be used with env files
 // in this case you can set and change this values to test purposes
-const PORT = process.env.PORT;
-const COOKIES_SECRET = process.env.COOKIES_SECRET;
+const isProduction = process.env.NODE_ENV === 'production';
+const PORT = isProduction ? process.env.PORT : 3000;
 
 const app = express();
-const { paths, viewEngine, csrfConfig } = config;
+const { paths, viewEngine, csrfConfig, cookiesSecret } = config;
 app.use(express.json());
-app.use(express.static(paths.public));
 app.set('views', paths.views);
 app.set('view engine', viewEngine);
+app.use(express.static(paths.public));
 
 const { invalidCsrfTokenError, generateToken, doubleCsrfProtection } =
   doubleCsrf(csrfConfig);
 
-app.use(cookieParser(COOKIES_SECRET));
+app.use(cookieParser(cookiesSecret));
 
 // Error handling, validation error interception
 const csrfErrorHandler = (error, req, res, next) => {

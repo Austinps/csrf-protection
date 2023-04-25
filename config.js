@@ -31,8 +31,13 @@ export default {
     getSecret: (req) => req.secret,
     secret: CSRF_SECRET,
     cookieName: CSRF_COOKIE_NAME,
-    cookieOptions: { sameSite: false, secure: false, signed: true }, // not ideal for production, development only
+    cookieOptions: {
+      sameSite: false,
+      secure: process.env.NODE_ENV === 'production',
+      signed: true,
+    },
     size: 64,
     ignoredMethods: ['GET', 'HEAD', 'OPTIONS'],
   },
+  cookiesSecret: COOKIES_SECRET,
 };
