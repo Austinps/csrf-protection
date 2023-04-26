@@ -1,12 +1,13 @@
 import express from 'express';
-import { doubleCsrf } from 'csrf-csrf';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import config from '../config/config.js';
 import viewRouter from './routes/viewRouter.js';
+import apiRouter from './routes/apiRouter.js';
+import { handle404, handleErrors } from './middleware/errors.js';
 
 const app = express();
-const { paths, viewEngine, csrfConfig, cookiesSecret } = config;
+const { paths, viewEngine } = config;
 app.use(express.json());
 app.set('views', paths.views);
 app.set('view engine', viewEngine);
@@ -14,15 +15,12 @@ app.use(express.static(paths.public));
 app.use(cookieParser('secret', { signed: true }));
 app.use(morgan('dev'));
 
-const { doubleCsrfProtection } = doubleCsrf(csrfConfig);
+app.get('/', (_, res) => res.redirect('/view'));
 
-app.get('/', (req, res) => res.redirect('/home'));
+app.use('/view', viewRouter);
+app.use('/api', apiRouter);
 
-app.use('/home', viewRouter);
-
-// Remove the route for fetching the CSRF token
-
-// Add the route for updating the email
-
+app.use(handle404);
+app.use(handleErrors);
 
 export default app;

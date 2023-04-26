@@ -1,21 +1,18 @@
-<!-- /views/protected.ejs -->
+<!-- /views/vulnerable.ejs -->
 
 <!DOCTYPE html>
 <html>
   <head>
-    <script defer src="/protected.js" data-base-url="<%= baseUrl %>"></script>
-    <title>Protected Page</title>
+    <script src="/vulnerable.js"></script>
+    <title>Vulnerable Page</title>
   </head>
   <body>
     <h1>Protected Page</h1>
     <div id="app"></div>
-    <div id="error"></div>
-    <div id="error"></div>
     <form id="update-email-form">
       <label for="email">Email:</label>
       <input type="email" id="email" name="email" required />
       <br /><br />
-      <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
       <input type="submit" value="Update Email" />
     </form>
     <ul>
