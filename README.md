@@ -14,7 +14,6 @@ To start the server, run the following command:
 
 npm run dev
 
-
 This will start the server in development mode using nodemon, which will automatically reload the server when you make changes to the code.
 
 The server listens on port 3000 by default in development mode, but you can set the `PORT` environment variable to a different value to override it.

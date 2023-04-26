@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script defer src="/protected.js" data-base-url="<%= baseUrl %>"></script>
+    <title>Protected Page</title>
+  </head>
+  <body>
+    <h1>Protected Page</h1>
+    <div id="app"></div>
+    <form action="/update-email" method="POST" id="update-email-form">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required />
+      <br /><br />
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+      <input type="submit" value="Update Email" />
+    </form>
+  </body>
+</html>

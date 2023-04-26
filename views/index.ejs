@@ -1,25 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/styles.css" />
-    <script defer src="/index.js" data-base-url="<%= baseUrl %>"></script>
-    <title>Anti-CSRF Example</title>
+    <title>CSRF Demo</title>
   </head>
   <body>
-    <div id="app"></div>
-    <h2>Submit Your form</h2>
-    <a href="/success">Success</a>
-    <form>
-      <label for="username">username:</label>
-      <input type="text" id="username" name="username" />
-
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password" />
-
-      <button type="submit">Submit</button>
-    </form>
+    <h1>Welcome to the CSRF demo!</h1>
+    <p>Please choose an option:</p>
+    <ul>
+      <li><a href="/home/unprotected">Unprotected page</a></li>
+      <li><a href="/home/protected">Protected page</a></li>
+    </ul>
   </body>
 </html>
